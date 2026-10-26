@@ -1,0 +1,69 @@
+---
+import Sidebar from "../components/Sidebar.astro";
+
+interface Props {
+	active?: "home" | "about" | "farm";
+	mainGap?: number;
+	padBottom?: number;
+}
+
+const { active, mainGap = 40, padBottom = 72 } = Astro.props;
+---
+
+<div class="shell">
+	<Sidebar active={active} />
+	<main
+		class="main"
+		style={`--main-gap: ${mainGap}px; --main-pad-bottom: ${padBottom}px;`}
+	>
+		<slot />
+	</main>
+</div>
+
+<style>
+	.shell {
+		display: flex;
+		align-items: stretch;
+		min-height: 100dvh;
+	}
+
+	.main {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--main-gap, 40px);
+		padding: 80px 88px var(--main-pad-bottom, 72px);
+	}
+
+	/* Mobile composition — matches the pen mobile frames; applies to every
+	   stacked width ≤ 960px so there is no in-between tablet state.
+	   The sidebar dissolves (display: contents in Sidebar.astro) and its
+	   children become rows of this grid: avatar/identity, nav, rule on top,
+	   main content, then socials + status as the page footer. */
+	@media (max-width: 960px) {
+		.shell {
+			display: grid;
+			/* minmax(0, 1fr): identity column may shrink below its min-content
+			   (the unwrapped roles row) instead of forcing the page wider */
+			grid-template-columns: auto minmax(0, 1fr);
+			grid-template-areas:
+				"avatar identity"
+				"nav nav"
+				"rule rule"
+				"main main"
+				"socials socials"
+				"status status";
+			column-gap: 16px;
+			row-gap: 16px;
+			padding-top: 36px;
+		}
+
+		.main {
+			grid-area: main;
+			margin-top: 28px; /* 44px rhythm minus the 16px row gap */
+			gap: 44px;
+			padding: 0 24px 40px;
+		}
+	}
+</style>

@@ -1,0 +1,80 @@
+---
+import Base from "../layouts/Base.astro";
+import Page from "../layouts/Page.astro";
+import Experience from "../components/Experience.astro";
+import Projects from "../components/Projects.astro";
+---
+
+<Base
+	title="About — Irpan"
+	description="About Irpan — 8+ years shipping Android apps, a career break that became Selada Ops, and the experience and projects in between."
+>
+	<Page active="about" mainGap={56} padBottom={88}>
+		<header class="intro">
+			<h1 class="hi">Hi, I’m Irpan.</h1>
+			<p class="hi-sub">
+				A software engineer in Indonesia, shipping Product apps for 8+ years —
+				and a hydroponic lettuce farmer on the side.
+			</p>
+		</header>
+
+		<div class="bio">
+			<p>
+				I mostly build Android apps with Kotlin and Jetpack Compose, and I own
+				features end to end: planning with product managers, building,
+				releasing, and keeping them healthy in production. I care about the
+				unglamorous parts — stability, release speed, crash-free users, boring
+				deploys.
+			</p>
+			<p>
+				Along the way I’ve shipped client apps at agencies, helped an EdTech
+				reach a 4.6★ Play Store rating, and built tools for farmers. In 2025 I
+				took a career break and planted a hydroponic lettuce garden — it turned
+				into Selada Ops, a small NFT farm with its own monitoring app. These
+				days I write software full-time and farm in the mornings, evenings, and
+				weekends.
+
+				I lived in Bandung Coret with my wife and kids.
+			</p>
+		</div>
+
+		<Experience />
+		<Projects />
+	</Page>
+</Base>
+
+<style>
+	.intro {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.hi {
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 3.1944vw, 2.875rem);
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--color-ink);
+	}
+
+	.hi-sub {
+		font-family: var(--font-display);
+		font-size: 1.1875rem;
+		line-height: 1.5;
+		color: var(--color-text-muted);
+	}
+
+	.bio {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+	}
+
+	.bio p {
+		font-family: var(--font-display);
+		font-size: 1.1875rem;
+		line-height: 1.7;
+		color: var(--color-text-body);
+	}
+</style>

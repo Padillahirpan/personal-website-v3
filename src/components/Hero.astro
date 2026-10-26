@@ -1,0 +1,314 @@
+---
+import Icon from "./Icon.astro";
+
+const cron = [
+	{
+		icon: "sunrise",
+		hours: "06:00 – 09:00",
+		title: "Morning rounds",
+		desc: "EC & pH check, harvest before the heat",
+	},
+	{
+		icon: "code",
+		hours: "09:00 – 17:00",
+		title: "Deep work — code",
+		desc: "Software Engineer, full-time",
+	},
+	{
+		icon: "sunset",
+		hours: "17:00 – 18:00",
+		title: "Evening rounds",
+		desc: "Channel & nutrient tank check",
+	},
+	{
+		icon: "calendar-days",
+		hours: "Sat – Sun",
+		title: "Family & farm days",
+		desc: "Family, planting, cleaning, experiments",
+	},
+] as const;
+
+const stats = [
+	{ value: "8+ yrs", label: "shipping software" },
+	{ value: "10 mo", label: "growing lettuce" },
+	{ value: "12", label: "harvest cycles" },
+];
+---
+
+<section class="hero" aria-label="Introduction">
+	<h1 class="headline">
+		<span class="line">I engineer apps for a living.</span>
+		<span class="line">I grow <em>lettuce</em> before sunrise.</span>
+		<span class="line">Both run on systems and daily care.</span>
+	</h1>
+
+	<div class="cron">
+		<p class="cron-label">$ crontab -l</p>
+		<ul class="cron-row">
+			{
+				cron.map((entry) => (
+					<li class="cron-cell">
+						<span class="cron-icon" aria-hidden="true">
+							<Icon name={entry.icon} size={15} />
+						</span>
+						<p class="cron-hours">{entry.hours}</p>
+						<p class="cron-title">{entry.title}</p>
+						<p class="cron-desc">{entry.desc}</p>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<ul class="stats">
+		{
+			stats.map((stat) => (
+				<li class="stat">
+					<span class="stat-value">{stat.value}</span>
+					<span class="stat-label">{stat.label}</span>
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.hero {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.headline {
+		font-family: var(--font-display);
+		font-size: clamp(2.125rem, 3.75vw, 3.375rem);
+		font-weight: 500;
+		line-height: 1.16;
+		color: var(--color-ink);
+	}
+
+	.headline .line {
+		display: block;
+	}
+
+	.headline .line + .line {
+		margin-top: 6px;
+	}
+
+	.headline em {
+		color: var(--color-accent);
+	}
+
+	.tended {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.cron {
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		margin-top: 24px;
+	}
+
+	.cron-label {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		line-height: 1.3;
+		color: var(--color-accent);
+	}
+
+	.cron-row {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 1px;
+		background: var(--color-border);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		overflow: hidden;
+	}
+
+	.cron-cell {
+		min-width: 0;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto auto auto;
+		column-gap: 8px;
+		row-gap: 10px;
+		padding: 20px;
+		background: var(--color-surface);
+	}
+
+	.cron-icon {
+		grid-row: 1;
+		grid-column: 1;
+		align-self: center;
+		display: inline-flex;
+		color: var(--color-accent);
+	}
+
+	.cron-hours {
+		grid-row: 1;
+		grid-column: 2;
+		font-family: var(--font-mono);
+		font-size: 0.78125rem;
+		font-weight: 600;
+		line-height: 1.3;
+		color: var(--color-ink);
+	}
+
+	.cron-title {
+		grid-column: 1 / -1;
+		font-size: 0.90625rem;
+		font-weight: 600;
+		line-height: 1.21;
+		color: var(--color-ink);
+	}
+
+	.cron-desc {
+		grid-column: 1 / -1;
+		font-size: 0.78125rem;
+		line-height: 1.45;
+		color: var(--color-text-muted);
+	}
+
+	.stats {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 0 24px;
+		border-left: 1px solid var(--color-border);
+	}
+
+	.stat:first-child {
+		padding-left: 0;
+		border-left: none;
+	}
+
+	.stat-value {
+		font-family: var(--font-mono);
+		font-size: 1.625rem;
+		font-weight: 600;
+		line-height: 1.2;
+		font-variant-numeric: tabular-nums;
+		color: var(--color-accent);
+	}
+
+	.stat-label {
+		font-size: 0.8125rem;
+		line-height: 1.21;
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 1180px) {
+		.cron-row {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	/* Mobile composition (from the pen "Portfolio Home — Mobile" frame, 390px) */
+	@media (max-width: 960px) {
+		.hero {
+			gap: 14px;
+		}
+
+		.headline {
+			font-size: 2.0625rem;
+			line-height: 1.22;
+		}
+
+		.headline .line + .line {
+			margin-top: 2px;
+		}
+
+		/* whole second line carries the accent italic on mobile */
+		.headline .line:nth-child(2) {
+			color: var(--color-accent);
+			font-style: italic;
+		}
+
+		.tended {
+			font-size: 0.71875rem;
+		}
+
+		.cron {
+			gap: 10px;
+		}
+
+		.cron-label {
+			font-size: 0.75rem;
+		}
+
+		.cron-row {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 0;
+			background: transparent;
+			border: none;
+			border-radius: 0;
+		}
+
+		.cron-cell {
+			padding: 13px 0;
+			column-gap: 12px;
+			row-gap: 3px;
+		}
+
+		.cron-cell + .cron-cell {
+			border-top: 1px solid var(--color-border);
+		}
+
+		.cron-icon {
+			grid-row: 1 / span 3;
+			align-self: start;
+			margin-top: 2px;
+		}
+
+		.cron-hours {
+			font-size: 0.71875rem;
+		}
+
+		.cron-title {
+			font-size: 0.84375rem;
+		}
+
+		.cron-desc {
+			font-size: 0.75rem;
+		}
+
+		.stats {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+
+		.stat,
+		.stat:first-child {
+			gap: 2px;
+			padding: 12px 14px;
+			border: 1px solid var(--color-border);
+			border-radius: 12px;
+			background: var(--color-surface);
+		}
+
+		.stat-value {
+			font-size: 1.1875rem;
+		}
+
+		.stat-label {
+			font-size: 0.71875rem;
+		}
+	}
+</style>

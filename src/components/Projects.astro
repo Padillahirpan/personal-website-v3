@@ -1,0 +1,156 @@
+---
+import Icon from "./Icon.astro";
+
+const projects = [
+	{
+		name: "Videoboxd",
+		platform: "web · side project",
+		desc: "A social video review platform — search videos, rate and review them, build playlists, and follow other people’s taste. Letterboxd, but for YouTube.",
+	},
+	{
+		name: "Cakap",
+		platform: "android · edtech",
+		desc: "Online learning platform with courses and training programs for individuals and organizations across Indonesia.",
+	},
+	{
+		name: "Appukat Go",
+		platform: "android · agritech",
+		desc: "Technology company bringing innovative solutions to the agricultural sector.",
+	},
+	{
+		name: "Erha Mobile App",
+		platform: "android · healthtech",
+		desc: "Telemedicine app connecting Erha customers and doctors — video visits, chats, and calls for skin and hair health.",
+	},
+	{
+		name: "Chakra Reward",
+		platform: "android · loyalty",
+		desc: "A rewards platform where users earn points and redeem them for benefits and discounts.",
+	},
+	{
+		name: "Kalcare Rewards",
+		platform: "android · loyalty",
+		desc: "Loyalty program by Kalbe, a leading healthcare company in Indonesia — points for health and wellness products.",
+	},
+	{
+		name: "KlikDokter",
+		platform: "android · healthtech",
+		desc: "Healthcare platform for online medical consultations, health information, and services.",
+	},
+];
+---
+
+<section class="projects" aria-labelledby="projects-heading">
+	<header class="section-head">
+		<h2 class="section-label" id="projects-heading">
+			projects — things i’ve shipped
+		</h2>
+		<hr class="rule-ink" />
+	</header>
+
+	<ul class="list">
+		{
+			projects.map((project, index) => (
+				<li class="project">
+					<span class="index">{String(index + 1).padStart(2, "0")}</span>
+					<div class="namecol">
+						<h3 class="name">{project.name}</h3>
+						<p class="platform">{project.platform}</p>
+					</div>
+					<p class="desc">{project.desc}</p>
+					<Icon name="arrow-up-right" size={16} class="arrow" />
+				</li>
+			))
+		}
+	</ul>
+</section>
+
+<style>
+	.projects {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.project {
+		display: grid;
+		grid-template-columns: 30px 190px minmax(0, 1fr) 16px;
+		gap: 20px;
+		align-items: start;
+		padding: 16px 4px;
+	}
+
+	.project + .project {
+		border-top: 1px solid var(--color-border);
+	}
+
+	.index {
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.namecol {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+	}
+
+	.name {
+		font-family: var(--font-display);
+		font-size: 1.1875rem;
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--color-ink);
+	}
+
+	.platform {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.desc {
+		font-size: 0.84375rem;
+		line-height: 1.55;
+		color: var(--color-text-muted);
+	}
+
+	.arrow {
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 700px) {
+		.project {
+			grid-template-areas:
+				"index name arrow"
+				"desc desc desc";
+			grid-template-columns: 30px minmax(0, 1fr) 16px;
+			row-gap: 8px;
+		}
+
+		.index {
+			grid-area: index;
+		}
+
+		.namecol {
+			grid-area: name;
+		}
+
+		.desc {
+			grid-area: desc;
+		}
+
+		.arrow {
+			grid-area: arrow;
+		}
+	}
+</style>

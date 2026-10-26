@@ -1,0 +1,296 @@
+---
+---
+
+<section class="greenhouse" aria-labelledby="greenhouse-heading">
+	<header class="section-head">
+		<h2 class="section-label" id="greenhouse-heading">
+			the greenhouse — bamboo edition
+		</h2>
+		<hr class="rule-ink" />
+	</header>
+
+	<div class="gh-row">
+		<figure class="photo">
+			<img
+				src="https://images.unsplash.com/photo-1788882858527-e7ea12d77c8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+				alt="Bamboo greenhouse structure with netting (photo: Yoksel Zok, Unsplash)"
+				loading="lazy"
+			/>
+		</figure>
+
+		<div class="gh-body">
+			<p class="gh-para">
+				The frame is local bamboo — cheap, strong enough for the channels and
+				netting, and easy to reconfigure with bolts and zip ties as I learn.
+				Inside: six food-grade channels on a ~3% slope, shaded with 50% net
+				against the tropical sun, and every reading logged in Selada Ops.
+			</p>
+
+			<dl class="specs">
+				<div class="spec">
+					<dt>frame</dt>
+					<dd>bamboo + galvanized bolts &amp; zip ties</dd>
+				</div>
+				<div class="spec">
+					<dt>channels</dt>
+					<dd>6 × 3 m food-grade PVC · 96 holes</dd>
+				</div>
+				<div class="spec">
+					<dt>slope</dt>
+					<dd>~3% (≈9 cm over 3 m)</dd>
+				</div>
+				<div class="spec">
+					<dt>pump</dt>
+					<dd>15 W · timer · 20 h/day</dd>
+				</div>
+				<div class="spec">
+					<dt>tank</dt>
+					<dd>500 L · shaded</dd>
+				</div>
+				<div class="spec">
+					<dt>monitoring</dt>
+					<dd>Selada Ops app + EC/pH meter</dd>
+				</div>
+			</dl>
+		</div>
+	</div>
+
+	{/* Decorative diagram — every fact on it also lives in the specs above. */}
+	<div class="schematic-scroll">
+		<div class="schematic" aria-hidden="true">
+			<span class="sch-caption">side view — the system, on paper</span>
+
+			<div class="channel">
+				{
+					[5.128, 16.026, 26.923, 37.821, 48.718, 59.615, 70.513, 81.41, 92.308].map(
+						(left) => <span class="pot" style={`left: ${left}%;`} />,
+					)
+				}
+			</div>
+
+			<div class="riser"></div>
+			<div class="pump">15 W pump</div>
+			<div class="tank">tank · 500 L</div>
+			<div class="drop"></div>
+			<div class="return-line"></div>
+
+			<span class="sch-label sch-in">
+				nutrient in — pushed up by the pump
+			</span>
+			<span class="sch-label sch-channels">
+				6 channels · ~3% slope · net pots every 25 cm
+			</span>
+			<span class="sch-label sch-return">gravity return</span>
+		</div>
+	</div>
+</section>
+
+<style>
+	.greenhouse {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.gh-row {
+		display: grid;
+		grid-template-columns: 380fr 560fr;
+		gap: 24px;
+	}
+
+	.photo {
+		margin: 0;
+		border-radius: 14px;
+		overflow: hidden;
+		aspect-ratio: 380 / 280;
+		outline: 1px solid rgb(0 0 0 / 0.1);
+		outline-offset: -1px;
+	}
+
+	.photo img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.gh-body {
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.gh-para {
+		font-family: var(--font-display);
+		font-size: 1.0625rem;
+		line-height: 1.6;
+		color: var(--color-text-body);
+	}
+
+	.specs {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+	}
+
+	.spec {
+		display: flex;
+		gap: 12px;
+	}
+
+	.spec dt {
+		flex-shrink: 0;
+		width: 96px;
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.spec dd {
+		margin: 0;
+		min-width: 0;
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-ink);
+	}
+
+	.schematic-scroll {
+		overflow-x: auto;
+		overscroll-behavior: contain;
+	}
+
+	.schematic {
+		position: relative;
+		width: 964px;
+		height: 210px;
+		background: var(--color-schematic-bg);
+		border-radius: 16px;
+	}
+
+	.schematic span {
+		position: absolute;
+		font-family: var(--font-mono);
+		white-space: nowrap;
+	}
+
+	.sch-caption {
+		left: 20px;
+		top: 14px;
+		font-size: 10.5px;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.channel {
+		position: absolute;
+		left: 32px;
+		top: 64px;
+		width: 780px;
+		height: 22px;
+		border-radius: 11px;
+		background: var(--color-accent);
+		transform: rotate(-2.5deg);
+		transform-origin: top left;
+	}
+
+	.pot {
+		top: 5px;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--color-schematic-pot);
+	}
+
+	.riser,
+	.drop {
+		position: absolute;
+		width: 3px;
+		background: var(--color-schematic-pipe);
+	}
+
+	.riser {
+		left: 806px;
+		top: 34px;
+		height: 92px;
+	}
+
+	.drop {
+		left: 30px;
+		top: 86px;
+		height: 66px;
+	}
+
+	.return-line {
+		position: absolute;
+		left: 30px;
+		top: 152px;
+		width: 746px;
+		height: 3px;
+		background: var(--color-schematic-return);
+	}
+
+	.pump {
+		position: absolute;
+		left: 786px;
+		top: 124px;
+		width: 76px;
+		height: 26px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 6px;
+		background: var(--color-accent-deep);
+		color: var(--color-cream);
+		font-size: 9px;
+		line-height: 1.3;
+	}
+
+	.tank {
+		position: absolute;
+		left: 776px;
+		top: 150px;
+		width: 160px;
+		height: 52px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		background: var(--color-schematic-tank);
+		color: var(--color-accent-deep);
+		font-size: 10.5px;
+		line-height: 1.3;
+	}
+
+	.sch-label {
+		font-size: 10px;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.sch-in {
+		left: 560px;
+		top: 10px;
+		color: var(--color-accent);
+	}
+
+	.sch-channels {
+		left: 64px;
+		top: 42px;
+	}
+
+	.sch-return {
+		left: 300px;
+		top: 160px;
+	}
+
+	@media (max-width: 900px) {
+		.gh-row {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,195 @@
+/* Design tokens — mirrored from the pen file irpan-port-v1.pen (frame "Portfolio Home — Desktop") */
+:root {
+  color-scheme: light;
+
+  /* backgrounds & surfaces */
+  --color-bg: #f7f5ee;
+  --color-bg-sidebar: #f2efe3;
+  --color-bg-status: #ebe6d2;
+  --color-surface: #ffffff;
+
+  /* text */
+  --color-ink: #202b21;
+  --color-text-body: #47523e;
+  --color-text-muted: #69755f;
+
+  /* borders */
+  --color-border: #e5e1d0;
+
+  /* accent ramp */
+  --color-accent: #3d7a44;
+  --color-accent-deep: #14231a;
+  --color-accent-panel: #1d3226;
+  --color-accent-mid: #6b9b72;
+  --color-accent-soft: #e2edd3;
+  --color-accent-bright: #95da80;
+  --color-accent-break: #bfdca0;
+  --color-cream: #f2efe2;
+
+  /* warm tag (farm posts) */
+  --color-tag-farm-bg: #f3e6c3;
+  --color-tag-farm-text: #8a6d1f;
+
+  /* greenhouse schematic */
+  --color-schematic-bg: #f0ede1;
+  --color-schematic-pot: #eaf2e4;
+  --color-schematic-pipe: #9db5a4;
+  --color-schematic-return: #a9c4ac;
+  --color-schematic-tank: #dce8d2;
+
+  /* inline code */
+  --color-code-bg: #efece0;
+
+  /* type */
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+p,
+figure,
+dl,
+dd {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-ink);
+}
+
+/* shared section header: small mono label over a full-width ink rule */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-label {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--color-accent);
+}
+
+.rule-ink {
+  border: none;
+  margin: 0;
+  height: 1px;
+  background: var(--color-ink);
+}
+
+/* Mobile composition (from the pen mobile frames) */
+@media (max-width: 960px) {
+  .section-head {
+    gap: 8px;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* Article prose — global so it styles markdown-rendered content */
+.prose {
+  max-width: 45rem;
+}
+
+.prose > * + * {
+  margin-block-start: 18px;
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  line-height: 1.7;
+  color: var(--color-text-body);
+}
+
+.prose h2 {
+  margin: 26px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+
+.prose h3 {
+  margin: 22px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+.prose ul,
+.prose ol {
+  padding-inline-start: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding: 2px 0 2px 16px;
+  font-style: italic;
+}
+
+.prose a {
+  color: var(--color-accent);
+}
+
+@media (hover: hover) {
+  .prose a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.78125rem;
+  background: var(--color-code-bg);
+  border-radius: 4px;
+  padding: 1px 5px;
+}

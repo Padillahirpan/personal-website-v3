@@ -1,0 +1,188 @@
+---
+import Icon from "./Icon.astro";
+
+const acts = [
+	{
+		icon: "code",
+		title: "The engineer.",
+		meta: "8+ yrs · android · mobile · fullstack",
+		para: "I build Mobile apps end to end — planning with product managers, shipping, and keeping them healthy in production. Eight years in, I still care most about the unglamorous parts: crash-free users, fast releases, boring deploys. The best compliment my work can get is that nobody ever notices it.",
+		linkLabel: "the full timeline — about ↗",
+		linkHref: "/about",
+	},
+	{
+		icon: "sprout",
+		title: "The farmer.",
+		meta: "10 mo · nft hydroponics · selada ops",
+		para: "Before sunrise and after dinner, I run Selada Ops — a small bamboo greenhouse growing batavia lettuce with NFT hydroponics. It started as a career-break experiment; now it feeds my family and half the neighborhood, and it gets monitored like production.",
+		linkLabel: "visit the garden — farm ↗",
+		linkHref: "/farm",
+	},
+] as const;
+---
+
+<section class="story" aria-labelledby="story-heading">
+	<header class="section-head">
+		<h2 class="section-label" id="story-heading">my story — in two acts</h2>
+		<hr class="rule-ink" />
+	</header>
+
+	<div class="acts">
+		{
+			acts.map((act) => (
+				<article class="act">
+					<header class="act-head">
+						<span class="act-chip" aria-hidden="true">
+							<Icon name={act.icon} size={17} />
+						</span>
+						<h3 class="act-title">{act.title}</h3>
+					</header>
+					<p class="act-meta">{act.meta}</p>
+					<p class="act-para">{act.para}</p>
+					<p class="act-link">
+						<a href={act.linkHref}>{act.linkLabel}</a>
+					</p>
+				</article>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.story {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	.acts {
+		display: flex;
+		gap: 40px;
+	}
+
+	.act {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.act-head {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.act-chip {
+		flex-shrink: 0;
+		width: 34px;
+		height: 34px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-accent-soft);
+		border-radius: 10px;
+		color: var(--color-accent);
+	}
+
+	.act-title {
+		font-family: var(--font-display);
+		font-size: 1.5rem;
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--color-ink);
+	}
+
+	.act-meta {
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.act-para {
+		font-family: var(--font-display);
+		font-size: 1.03125rem;
+		line-height: 1.65;
+		color: var(--color-text-body);
+	}
+
+	.act-link {
+		padding-top: 6px;
+	}
+
+	.act-link a {
+		font-family: var(--font-mono);
+		font-size: 0.78125rem;
+		line-height: 1.3;
+		color: var(--color-accent);
+		transition: color 150ms ease;
+	}
+
+	@media (hover: hover) {
+		.act-link a:hover {
+			color: var(--color-accent-deep);
+			text-decoration: underline;
+			text-underline-offset: 3px;
+		}
+	}
+
+	@media (max-width: 960px) {
+		.acts {
+			flex-direction: column;
+			gap: 40px;
+		}
+	}
+
+	/* Mobile composition (from the pen "Portfolio Home — Mobile" frame) */
+	@media (max-width: 960px) {
+		.story {
+			gap: 18px;
+		}
+
+		.acts {
+			gap: 18px;
+		}
+
+		.act {
+			gap: 9px;
+		}
+
+		.act-head {
+			gap: 10px;
+		}
+
+		.act-chip {
+			width: 30px;
+			height: 30px;
+			border-radius: 9px;
+		}
+
+		.act-chip :global(svg) {
+			width: 15px;
+			height: 15px;
+		}
+
+		.act-title {
+			font-size: 1.25rem;
+		}
+
+		.act-meta {
+			font-size: 0.65625rem;
+		}
+
+		.act-para {
+			font-size: 0.96875rem;
+			line-height: 1.6;
+		}
+
+		.act-link {
+			padding-top: 0;
+		}
+
+		.act-link a {
+			font-size: 0.75rem;
+		}
+	}
+</style>

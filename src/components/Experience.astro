@@ -1,0 +1,229 @@
+---
+import CareerChart from "./CareerChart.astro";
+
+const roles = [
+	{
+		dates: "2026 — now · ntt global indo",
+		title: "Software Developer",
+		summary:
+			"Providing software development services across ongoing engagements — impact write-up in progress.",
+		break: false,
+	},
+	{
+		dates: "2025 — 2026 · selada ops",
+		title: "The Farm Starts",
+		summary:
+			"Rest after years of sprinting became a hydroponic lettuce garden — grown from zero to regular harvests, monitored by Selada Ops, and documented in a journal I still keep.",
+		break: true,
+	},
+	{
+		dates: "2022 — 2025 · cakap",
+		title: "Android Engineer",
+		summary:
+			"Leading Indonesian EdTech for online language learning. Stabilized 1:1 video classes to a 4.6★ Play Store rating, cut releases from 2 weeks to 3 days with GitLab CI/CD and Fastlane, dropped crash rate 1.8% → 0.4%, and migrated legacy XML to Jetpack Compose module by module.",
+		break: false,
+	},
+	{
+		dates: "2021 — 2022 · argapro",
+		title: "Android Developer",
+		summary:
+			"AgriTech for the agricultural sector. Built the farmers’ Android app from zero to thousands of users, cut APK size ~35% for slow networks, and simplified the architecture with Koin and Coroutines.",
+		break: false,
+	},
+	{
+		dates: "2019 — 2021 · rolling glory",
+		title: "Android Developer",
+		summary:
+			"Digital agency specializing in mobile apps. Shipped 8+ client apps across industries on time and helped keep quality high with code review and SonarQube.",
+		break: false,
+	},
+	{
+		dates: "2018 — 2019 · bigio.id",
+		title: "Mobile Developer",
+		summary:
+			"Startup building digital solutions for SMEs. Shipped Android and iOS apps from a single React Native codebase with automated Expo builds.",
+		break: false,
+	},
+];
+---
+
+<section class="experience" aria-labelledby="experience-heading">
+	<header class="section-head">
+		<h2 class="section-label" id="experience-heading">experience</h2>
+		<hr class="rule-ink" />
+	</header>
+
+	<div class="chart-block">
+		<CareerChart />
+		<div class="legend">
+			<span class="dot dot-ft" aria-hidden="true"></span>
+			<span class="legend-label">full-time</span>
+			<span class="dot dot-break" aria-hidden="true"></span>
+			<span class="legend-label">career break</span>
+			<span class="legend-now">— now</span>
+		</div>
+	</div>
+
+	<div class="roles">
+		{
+			roles.map((role, index) => (
+				<article
+					class:list={["role", { "role-break": role.break }]}
+					role="tabpanel"
+					id={`role-panel-${index}`}
+					aria-labelledby={`role-tab-${index}`}
+					hidden={index !== 0}
+					data-role-panel
+				>
+					<div class="role-body">
+						<p class="role-dates">{role.dates}</p>
+						<h3 class="role-title">{role.title}</h3>
+						<p class="role-summary">{role.summary}</p>
+					</div>
+				</article>
+			))
+		}
+	</div>
+</section>
+
+<script>
+	const tablist = document.querySelector("[data-career-tabs]");
+
+	if (tablist) {
+		const tabs = [...tablist.querySelectorAll<HTMLButtonElement>("[role='tab']")];
+		const panels = [...document.querySelectorAll<HTMLElement>("[data-role-panel]")];
+
+		const select = (index: number) => {
+			for (const tab of tabs) {
+				const active = Number(tab.dataset.roleIndex) === index;
+				tab.setAttribute("aria-selected", String(active));
+				tab.tabIndex = active ? 0 : -1;
+			}
+			for (const panel of panels) {
+				panel.hidden = panel.id !== `role-panel-${index}`;
+			}
+		};
+
+		tablist.addEventListener("click", (event) => {
+			const tab = (event.target as HTMLElement).closest<HTMLButtonElement>("[role='tab']");
+			if (tab?.dataset.roleIndex) select(Number(tab.dataset.roleIndex));
+		});
+
+		tablist.addEventListener("keydown", (event) => {
+			const currentPos = tabs.findIndex(
+				(tab) => tab.getAttribute("aria-selected") === "true",
+			);
+			let nextPos: number;
+
+			switch (event.key) {
+				case "ArrowRight":
+					nextPos = (currentPos + 1) % tabs.length;
+					break;
+				case "ArrowLeft":
+					nextPos = (currentPos - 1 + tabs.length) % tabs.length;
+					break;
+				case "Home":
+					nextPos = 0;
+					break;
+				case "End":
+					nextPos = tabs.length - 1;
+					break;
+				default:
+					return;
+			}
+
+			event.preventDefault();
+			// DOM position ≠ role index: bars run oldest → newest, roles newest → oldest
+			select(Number(tabs[nextPos].dataset.roleIndex));
+			tabs[nextPos].focus();
+		});
+	}
+</script>
+
+<style>
+	.experience {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.chart-block {
+		display: flex;
+		flex-direction: column;
+		gap: 22px;
+	}
+
+	.legend {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.dot {
+		width: 8px;
+		height: 8px;
+	}
+
+	.dot-ft {
+		background: var(--color-accent);
+	}
+
+	.dot-break {
+		background: var(--color-accent-break);
+	}
+
+	.legend-label,
+	.legend-now {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.legend-now {
+		color: var(--color-accent);
+	}
+
+	.roles {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.role {
+		padding: 20px 0;
+	}
+
+	.role-body {
+		display: flex;
+		flex-direction: column;
+		gap: 7px;
+		padding-left: 16px;
+		border-left: 3px solid var(--color-accent);
+	}
+
+	.role-break .role-body {
+		border-left-color: var(--color-accent-break);
+	}
+
+	.role-dates {
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		font-weight: 500;
+		line-height: 1.3;
+		color: var(--color-accent);
+	}
+
+	.role-title {
+		font-family: var(--font-display);
+		font-size: 1.3125rem;
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--color-ink);
+	}
+
+	.role-summary {
+		font-size: 0.84375rem;
+		line-height: 1.55;
+		color: var(--color-text-muted);
+	}
+</style>

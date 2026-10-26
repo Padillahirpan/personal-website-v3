@@ -1,0 +1,121 @@
+---
+import EmailButton from "./EmailButton.astro";
+---
+
+<footer class="footer">
+	<h2 class="footer-heading">Let’s talk code — or lettuce.</h2>
+
+	<p class="footer-sub">
+		Open to interesting engineering work, farm collaborations, school visits,
+		or just a good chat about greens.
+	</p>
+
+	<div class="footer-cta">
+		<EmailButton />
+	</div>
+</footer>
+
+<style>
+	.footer {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		padding-top: 56px;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.footer-heading {
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 2.64vw, 2.375rem);
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--color-ink);
+	}
+
+	.footer-sub {
+		max-width: 35rem;
+		font-size: 0.96875rem;
+		line-height: 1.6;
+		color: var(--color-text-muted);
+	}
+
+	.footer-cta {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px 20px;
+	}
+
+	.footer-link {
+		font-family: var(--font-mono);
+		font-size: 0.78125rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+		transition: color 150ms ease;
+	}
+
+	@media (hover: hover) {
+		.footer-link:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	.footer-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 8px 16px;
+		padding-top: 28px;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.footer-meta p {
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.command {
+		color: var(--color-accent);
+	}
+
+	/* Mobile composition (from the pen "Portfolio Home — Mobile" frame) */
+	@media (max-width: 960px) {
+		.footer {
+			gap: 14px;
+			padding-top: 32px;
+		}
+
+		.footer-heading {
+			font-size: 1.5rem;
+			font-weight: 600;
+		}
+
+		.footer-sub {
+			font-size: 0.84375rem;
+			line-height: 1.55;
+		}
+
+		/* socials already sit in the mobile header */
+		.footer-link {
+			display: none;
+		}
+
+		.footer-meta {
+			display: block;
+			padding-top: 0;
+			border-top: none;
+		}
+
+		.footer-meta p {
+			display: inline;
+			font-size: 0.625rem;
+		}
+
+		.command::before {
+			content: " · ";
+		}
+	}
+</style>

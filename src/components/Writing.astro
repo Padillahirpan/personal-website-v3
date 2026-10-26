@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import NoteList from "./NoteList.astro";
+import { formatDayMonth } from "../utils/dates";
+
+const engineeringNotes = await getCollection(
+	"notes",
+	(note) => note.data.section === "engineering" && !note.data.draft,
+);
+
+const posts = engineeringNotes
+	.sort((a, b) => +b.data.date - +a.data.date)
+	.map((note) => ({
+		slug: note.id,
+		date: formatDayMonth(note.data.date),
+		title: note.data.title,
+		tag: note.data.tag,
+		warm: note.data.warm,
+		read: note.data.readTime,
+		draft: note.data.draft,
+	}));
+---
+
+<section class="writing" id="writing" aria-labelledby="writing-heading">
+	<header class="section-head">
+		<h2 class="section-label" id="writing-heading">
+			writing — notes from both worlds
+		</h2>
+		<hr class="rule-ink" />
+	</header>
+
+	{posts.length === 0 ? (
+		<p class="empty">
+			nothing published yet — coming soon
+		</p>
+	) : (
+		<>
+			<p class="year">2026</p>
+			<NoteList notes={posts} />
+		</>
+	)}
+</section>
+
+<style>
+	.writing {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.year {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.empty {
+		padding: 22px 0;
+		border-top: 1px solid var(--color-border);
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		line-height: 1.5;
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 960px) {
+		.writing {
+			gap: 14px;
+		}
+
+		.year {
+			font-size: 0.6875rem;
+		}
+	}
+</style>

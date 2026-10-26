@@ -1,0 +1,150 @@
+---
+// Shared post/note row list — used by the Home writing section and the Farm
+// notes sections. Tag pill width differs per page (88px home, 96px farm).
+interface Note {
+	slug: string;
+	draft?: boolean;
+	date: string;
+	title: string;
+	tag: string;
+	warm?: boolean;
+	read: string;
+}
+
+interface Props {
+	notes: Note[];
+	tagWidth?: number;
+}
+
+const { notes, tagWidth = 88 } = Astro.props;
+---
+
+<ul class="notes" style={`--tag-width: ${tagWidth}px;`}>
+	{
+		notes.map((note) => (
+			<li>
+				<a class="note" href={`/notes/${note.slug}/`}>
+					<span class="note-date">{note.date}</span>
+					<span class="note-title">{note.title}</span>
+					<span class:list={["note-tag", { "note-tag-warm": note.warm }]}>
+						{note.tag}
+					</span>
+					<span class="note-read">{note.read}</span>
+				</a>
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.notes {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.note {
+		display: grid;
+		grid-template-columns: 56px minmax(0, 1fr) var(--tag-width, 88px) 48px;
+		gap: 16px;
+		align-items: center;
+		padding: 15px 4px;
+		transition:
+			background-color 150ms ease,
+			color 150ms ease;
+	}
+
+	.note + .note {
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (hover: hover) {
+		.note:hover {
+			background: color-mix(in oklab, var(--color-surface) 65%, transparent);
+			border-radius: 14px;
+		}
+		
+	}
+
+	.note-title {
+		min-width: 0;
+		font-family: var(--font-display);
+		font-size: 1.125rem;
+		font-weight: 500;
+		line-height: 1.2;
+		color: var(--color-ink);
+		overflow-wrap: break-word;
+	}
+
+	@media (hover: hover) {
+		.note:hover .note-title {
+			color: var(--color-accent);
+		}
+	}
+
+	.note-date {
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+		white-space: nowrap;
+	}
+
+	.note-tag {
+		padding: 5px 0;
+		border-radius: 999px;
+		background: var(--color-accent-soft);
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: 0.59375rem;
+		line-height: 1.3;
+		text-align: center;
+		white-space: nowrap;
+	}
+
+	.note-tag-warm {
+		background: var(--color-tag-farm-bg);
+		color: var(--color-tag-farm-text);
+	}
+
+	.note-read {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		line-height: 1.3;
+		font-variant-numeric: tabular-nums;
+		text-align: right;
+		color: var(--color-text-muted);
+		white-space: nowrap;
+	}
+
+	/* Mobile composition (from the pen mobile frames): title over a meta row */
+	@media (max-width: 960px) {
+		.note {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 6px 10px;
+			padding: 13px 0;
+		}
+
+		.note-title {
+			order: -1;
+			width: 100%;
+			font-size: 1rem;
+		}
+
+		.note-date {
+			font-size: 0.65625rem;
+		}
+
+		.note-tag {
+			padding: 3px 9px;
+			font-size: 0.5625rem;
+		}
+
+		.note-read {
+			margin-left: auto;
+			font-size: 0.65625rem;
+		}
+	}
+</style>

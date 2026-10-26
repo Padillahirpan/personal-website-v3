@@ -1,0 +1,138 @@
+---
+// Garden photo grid. Photos are Unsplash stock standing in for the garden —
+// credits live in the alt text until real photos replace them.
+const wide = {
+	src: "https://images.unsplash.com/photo-1784601758625-9dcefc5a2b71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+	alt: "Rows of lettuce growing in long hydroponic channels (photo: Declan Sun, Unsplash)",
+};
+
+const stacked = [
+	{
+		src: "https://images.unsplash.com/photo-1655912865524-5dff5adf0c47?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+		alt: "Crate of freshly harvested lettuce (photo: Hans Lugner, Unsplash)",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1632484788077-43692a0969d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+		alt: "Lettuce roots and rockwool in a net pot (photo: Dimitris K, Unsplash)",
+	},
+];
+
+const row = [
+	{
+		src: "https://images.unsplash.com/photo-1598998255396-9c0289d33304?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+		alt: "Butterhead lettuce head from above (photo: Erda Estremera, Unsplash)",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1638253779387-7b519ceebda2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+		alt: "Young lettuce seedlings in a nursery tray (photo: thiện trần, Unsplash)",
+	},
+	{
+		src: "https://images.unsplash.com/photo-1646082271218-ac813f4ca029?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+		alt: "Hand holding freshly picked greens (photo: MRC Témiscamingue, Unsplash)",
+	},
+];
+---
+
+<section class="photos" aria-labelledby="photos-heading">
+	<header class="section-head">
+		<h2 class="section-label" id="photos-heading">the garden, in frames</h2>
+		<hr class="rule-ink" />
+	</header>
+
+	<div class="grid">
+		<div class="row-1">
+			<figure class="photo photo-wide">
+				<img src={wide.src} alt={wide.alt} loading="lazy" />
+			</figure>
+			<div class="photo-col">
+				{
+					stacked.map((photo) => (
+						<figure class="photo">
+							<img src={photo.src} alt={photo.alt} loading="lazy" />
+						</figure>
+					))
+				}
+			</div>
+		</div>
+
+		<div class="row-2">
+			{
+				row.map((photo) => (
+					<figure class="photo">
+						<img src={photo.src} alt={photo.alt} loading="lazy" />
+					</figure>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.photos {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.grid {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.row-1 {
+		display: grid;
+		grid-template-columns: 636fr 312fr;
+		gap: 16px;
+	}
+
+	.photo-col {
+		display: grid;
+		grid-template-rows: 1fr 1fr;
+		gap: 16px;
+	}
+
+	.row-2 {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 16px;
+	}
+
+	.photo {
+		margin: 0;
+		border-radius: 14px;
+		overflow: hidden;
+		/* 1px pure-black outline inset 1px — keeps image edges off the paper bg */
+		outline: 1px solid rgb(0 0 0 / 0.1);
+		outline-offset: -1px;
+	}
+
+	.photo img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.photo-wide {
+		aspect-ratio: 636 / 340;
+	}
+
+	.row-2 .photo {
+		aspect-ratio: 310.67 / 240;
+	}
+
+	@media (max-width: 700px) {
+		.row-1 {
+			grid-template-columns: 1fr;
+		}
+
+		.row-2 {
+			grid-template-columns: 1fr;
+		}
+
+		.row-2 .photo {
+			aspect-ratio: 3 / 2;
+		}
+	}
+</style>

@@ -1,0 +1,157 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Page from "../../layouts/Page.astro";
+import EmailButton from "../../components/EmailButton.astro";
+import NoteList from "../../components/NoteList.astro";
+import { formatDate, formatDayMonth } from "../../utils/dates";
+
+export async function getStaticPaths() {
+	const notes = (await getCollection("notes")).sort(
+		(a, b) => +b.data.date - +a.data.date,
+	);
+	return notes.map((note, index) => ({
+		params: { slug: note.id },
+		props: { note, next: notes[(index + 1) % notes.length] },
+	}));
+}
+
+const { note, next } = Astro.props;
+const { Content } = await render(note);
+---
+
+<Base title={`${note.data.title} — Irpan`} description={note.data.description}>
+	<Page mainGap={48} padBottom={88}>
+		<p class="back">
+			<a href="/#writing">← all notes</a>
+		</p>
+
+		<article>
+			<header class="article-head">
+				<p class="meta">
+					<span class="meta-tag">{note.data.tag}</span>
+					<time datetime={note.data.date.toISOString()}>
+						{formatDate(note.data.date)}
+					</time>
+					<span aria-hidden="true">·</span>
+					<span>{note.data.readTime} read</span>
+				</p>
+				<h1 class="title">{note.data.title}</h1>
+				<p class="lede">{note.data.description}</p>
+			</header>
+
+			<hr class="head-rule" />
+
+			<div class="prose">
+				<Content />
+			</div>
+		</article>
+
+		<hr class="footer-rule" />
+
+		<section class="keep-reading" aria-labelledby="keep-reading-heading">
+			<h2 class="section-label" id="keep-reading-heading">keep reading</h2>
+			<NoteList
+				notes={[
+					{
+						slug: next.id,
+						date: formatDayMonth(next.data.date),
+						title: next.data.title,
+						tag: next.data.tag,
+						warm: next.data.warm,
+						read: next.data.readTime,
+					},
+				]}
+			/>
+		</section>
+
+		<div class="cta-row">
+			<EmailButton />
+			<p class="cta-meta">questions about this note? just reply by email.</p>
+		</div>
+	</Page>
+</Base>
+
+<style>
+	.back a {
+		font-family: var(--font-mono);
+		font-size: 0.78125rem;
+		line-height: 1.3;
+		color: var(--color-accent);
+		transition: color 150ms ease;
+	}
+
+	@media (hover: hover) {
+		.back a:hover {
+			color: var(--color-accent-deep);
+		}
+	}
+
+	.article-head {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.meta-tag {
+		padding: 5px 12px;
+		border-radius: 999px;
+		background: var(--color-accent-soft);
+		color: var(--color-accent);
+		font-size: 0.59375rem;
+	}
+
+	.title {
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 3.1944vw, 2.875rem);
+		font-weight: 600;
+		line-height: 1.15;
+		color: var(--color-ink);
+	}
+
+	.lede {
+		max-width: 45rem;
+		font-family: var(--font-display);
+		font-size: 1.1875rem;
+		line-height: 1.5;
+		color: var(--color-text-muted);
+	}
+
+	.head-rule,
+	.footer-rule {
+		border: none;
+		margin: 0;
+		height: 1px;
+		background: var(--color-border);
+	}
+
+	.keep-reading {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.cta-row {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 12px 16px;
+	}
+
+	.cta-meta {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+</style>

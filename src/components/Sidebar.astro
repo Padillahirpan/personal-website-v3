@@ -1,0 +1,342 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  active?: "home" | "about" | "farm";
+}
+
+const { active } = Astro.props;
+
+const navItems = [
+	{ key: "home", href: "/", label: "Home" },
+	{ key: "about", href: "/about", label: "About" },
+	{ key: "farm", href: "/farm", label: "Farm" },
+] as const;
+
+const socials = [
+	{ label: "GitHub ↗", href: "https://github.com/Padillahirpan" },
+	{ label: "LinkedIn ↗", href: "https://www.linkedin.com/in/padillahirpan" },
+	{ label: "Email ↗", href: "mailto:padillahirpan@gmail.com" },
+];
+---
+
+<aside class="sidebar">
+	<div class="avatar">
+		<Icon name="sprout" size={30} />
+	</div>
+
+	<div class="identity">
+		<p class="name">Irpan</p>
+		<div class="roles">
+			<p>Software engineer</p>
+			<p>Hydroponic lettuce farmer</p>
+		</div>
+	</div>
+
+	<nav class="nav" aria-label="Primary">
+		{
+			navItems.map((item) =>
+				active === item.key ? (
+					<span aria-current="page">{item.label}</span>
+				) : (
+					<a href={item.href}>{item.label}</a>
+				),
+			)
+		}
+	</nav>
+
+	<hr class="rule" />
+	
+	<ul class="socials">
+		{
+			socials.map((social) => (
+				<li>
+					<a
+						href={social.href}
+						rel={social.href.startsWith("http") ? "me noopener" : undefined}
+					>
+						{social.label}
+					</a>
+				</li>
+			))
+		}
+	</ul>
+
+	<div class="spacer" aria-hidden="true"></div>
+
+	<div class="status">
+		<p class="status-head">
+			<span class="dot" aria-hidden="true"></span>
+			<span>last tended</span>
+		</p>
+		<p>© 2026 Irpan — hand-watered &amp; coffee & love</p>
+	</div>
+</aside>
+
+<style>
+	.sidebar {
+		position: sticky;
+		top: 0;
+		width: 300px;
+		flex-shrink: 0;
+		height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		gap: 28px;
+		padding: 48px 32px 32px 40px;
+		background: var(--color-bg-sidebar);
+		border-right: 1px solid var(--color-border);
+	}
+
+	.avatar {
+		width: 64px;
+		height: 64px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--color-accent-deep);
+		border-radius: 18px;
+		color: var(--color-accent-bright);
+	}
+
+	.identity {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.name {
+		font-family: var(--font-display);
+		font-size: 1.6875rem;
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--color-ink);
+	}
+
+	.roles {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.roles p {
+		font-size: 0.84375rem;
+		line-height: 1.21;
+		color: var(--color-text-muted);
+	}
+
+	.nav {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+
+	.nav a,
+	.nav span {
+		display: block;
+		padding: 8px 12px;
+		border-radius: 8px;
+		font-family: var(--font-mono);
+		font-size: 0.84375rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+		transition:
+			background-color 150ms ease,
+			color 150ms ease;
+	}
+
+	.nav [aria-current="page"] {
+		background: var(--color-accent-soft);
+		color: var(--color-accent);
+		font-weight: 600;
+	}
+
+	@media (hover: hover) {
+		.nav a:not([aria-current="page"]):hover {
+			background: color-mix(in oklab, var(--color-accent-soft) 55%, transparent);
+			color: var(--color-ink);
+		}
+	}
+
+	.rule {
+		border: none;
+		margin: 0;
+		width: 80%;
+		height: 1px;
+		background: var(--color-border);
+	}
+
+	.socials {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.socials a {
+		font-family: var(--font-mono);
+		font-size: 0.78125rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+		transition: color 150ms ease;
+	}
+
+	@media (hover: hover) {
+		.socials a:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	.spacer {
+		flex: 1;
+	}
+
+	.status {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 12px 14px;
+		background: var(--color-bg-status);
+		border-radius: 12px;
+	}
+
+	.status-head {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-text-muted);
+	}
+
+	.dot {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.status-value {
+		font-family: var(--font-mono);
+		font-size: 0.71875rem;
+		line-height: 1.3;
+		color: var(--color-ink);
+	}
+
+	/* Mobile composition (from the pen "Portfolio Home — Mobile" frame, 390px):
+	   below the desktop breakpoint the sidebar box dissolves (display: contents)
+	   and its children drop into the page grid defined in Page.astro — that
+	   grid moves socials + status below the main content, so the header stays
+	   compact and the page gets a real footer block. Applies ≤ 960px. */
+	@media (max-width: 960px) {
+		.sidebar {
+			display: contents;
+		}
+
+		.spacer {
+			display: none;
+		}
+
+		.avatar {
+			grid-area: avatar;
+			align-self: center;
+			justify-self: start;
+			margin-left: 24px;
+			width: 52px;
+			height: 52px;
+			border-radius: 14px;
+		}
+
+		.avatar :global(svg) {
+			width: 24px;
+			height: 24px;
+		}
+
+		.identity {
+			grid-area: identity;
+			align-self: center;
+			padding-right: 16px;
+		}
+
+		.name {
+			font-size: 1.3125rem;
+		}
+
+		/* roles stay on a single line — no wrapping to a second row */
+		.roles {
+			flex-direction: row;
+			align-items: center;
+			flex-wrap: nowrap;
+		}
+
+		.roles p {
+			font-size: 0.6875rem;
+			white-space: nowrap;
+		}
+
+		.roles p + p::before {
+			content: " · ";
+		}
+
+		/* narrow phones (320–350px): shrink a touch more so the line still fits */
+		@media (max-width: 350px) {
+			.roles p {
+				font-size: 0.625rem;
+			}
+		}
+
+		.nav {
+			grid-area: nav;
+			justify-self: start;
+			flex-direction: row;
+			gap: 6px;
+			padding-left: 24px;
+		}
+
+		.nav a,
+		.nav span {
+			padding: 7px 12px;
+			font-size: 0.78125rem;
+		}
+
+		.rule {
+			grid-area: rule;
+			margin-inline: 24px;
+		}
+
+		.socials {
+			grid-area: socials;
+			flex-direction: row;
+			gap: 18px;
+			padding-inline: 24px;
+		}
+
+		.socials a {
+			font-size: 0.75rem;
+		}
+
+		.status {
+			grid-area: status;
+			align-self: stretch;
+			flex-direction: row;
+			align-items: center;
+			gap: 8px;
+			margin: 0 24px;
+			padding: 10px 12px;
+			border-radius: 10px;
+		}
+
+		.dot {
+			width: 7px;
+			height: 7px;
+		}
+
+		.status-head,
+		.status-value {
+			font-size: 0.6875rem;
+		}
+	}
+</style>
